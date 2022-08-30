@@ -13,11 +13,12 @@ public class MenuUIHandler : MonoBehaviour
     {
         ColorPicker.Init();
         ColorPicker.onColorChanged += NewColorSelected;
+        ColorPicker.SelectColor(MainManager.Instance.TeamColor);
     }
 
     public void NewColorSelected(Color color)
     {
-
+        MainManager.Instance.TeamColor = color;
     }
 
     public void StartNew()
@@ -25,12 +26,25 @@ public class MenuUIHandler : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    public void SaveColorClicked()
+    {
+        MainManager.Instance.SaveColor();
+    }
+
+    public void LoadColorClicked()
+    {
+        MainManager.Instance.LoadColor();
+        ColorPicker.SelectColor(MainManager.Instance.TeamColor);
+    }
+
     public void Exit()
     {
+        MainManager.Instance.SaveColor();
+
         #if UNITY_EDITOR
             EditorApplication.ExitPlaymode();
         #else
-            Application.Quit(); // original code to quit Unity player
+            Application.Quit();
         #endif
     }
 }
